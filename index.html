@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Website with Like Button</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+    button { font-size: 24px; padding: 10px 20px; cursor: pointer; }
+    p { font-size: 20px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Welcome to My Website</h1>
+  <p>❤️ Click the button if you like this page!</p>
+  <button id="likeBtn">❤️ Like</button>
+  <p id="likeCount">Likes: 0</p>
+  <p>Version: 1.0.0</p>
+
+  <script>
+    const counterKey = "Miktc-Miktc"; // Your counter key
+
+    async function updateCount() {
+      try {
+        const res = await fetch(`https://counterapi.dev/${counterKey}`);
+        const data = await res.json();
+        document.getElementById("likeCount").innerText = "Likes: " + data.value;
+      } catch (err) {
+        console.error("Error fetching like count:", err);
+      }
+    }
+
+    document.getElementById("likeBtn").onclick = async () => {
+      try {
+        await fetch(`https://counterapi.dev/${counterKey}/increment`);
+        updateCount();
+      } catch (err) {
+        console.error("Error updating like count:", err);
+      }
+    }
+
+    updateCount();
+  </script>
+</body>
+</html>
