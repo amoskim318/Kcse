@@ -18,11 +18,12 @@
 
   <script>
     // Your workspace-counter key
-    const counterKey = "Miktc-Miktc";
+    const counterKey = "mywebsite12kim-likebutton";
 
     // Full API endpoint
     const apiBase = "https://api.counterapi.dev";
 
+    // Function to update the like count
     async function updateCount() {
       try {
         const res = await fetch(`${apiBase}/v1/counter/${counterKey}`);
@@ -34,6 +35,7 @@
       }
     }
 
+    // Function to increment the like count
     document.getElementById("likeBtn").onclick = async () => {
       try {
         await fetch(`${apiBase}/v1/counter/${counterKey}/increment`, { method: "POST" });
@@ -43,6 +45,7 @@
       }
     }
 
+    // Initialize count when page loads
     updateCount();
   </script>
 </body>
