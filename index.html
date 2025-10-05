@@ -13,39 +13,43 @@
   <h1>Welcome to My Website</h1>
   <p>❤️ Click the button if you like this page!</p>
   <button id="likeBtn">❤️ Like</button>
-  <p id="likeCount">Likes: 0</p>
+  <p id="likeCount">Likes: Loading...</p>
   <p>Version: 1.0.0</p>
 
   <script>
     // Your workspace-counter key
     const counterKey = "mywebsite12kim-likebutton";
 
-    // Full API endpoint
-    const apiBase = "https://api.counterapi.dev";
+    // API base
+    const apiBase = "https://api.counterapi.dev/v1/counter/";
 
-    // Function to update the like count
+    // CORS proxy URL (free option)
+    const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+
+    // Function to update like count
     async function updateCount() {
       try {
-        const res = await fetch(`${apiBase}/v1/counter/${counterKey}`);
+        const res = await fetch(proxyUrl + apiBase + counterKey);
+        if (!res.ok) throw new Error("Counter not found");
         const data = await res.json();
         document.getElementById("likeCount").innerText = "Likes: " + data.value;
       } catch (err) {
         console.error("Error fetching like count:", err);
-        document.getElementById("likeCount").innerText = "Likes: Error";
+        document.getElementById("likeCount").innerText = "Likes: 0";
       }
     }
 
-    // Function to increment the like count
+    // Function to increment like count
     document.getElementById("likeBtn").onclick = async () => {
       try {
-        await fetch(`${apiBase}/v1/counter/${counterKey}/increment`, { method: "POST" });
+        await fetch(proxyUrl + apiBase + counterKey + "/increment", { method: "POST" });
         updateCount();
       } catch (err) {
         console.error("Error updating like count:", err);
       }
     }
 
-    // Initialize count when page loads
+    // Initialize like count on page load
     updateCount();
   </script>
 </body>
