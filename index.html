@@ -17,21 +17,26 @@
   <p>Version: 1.0.0</p>
 
   <script>
-    const counterKey = "Miktc-Miktc"; // Your counter key
+    // Your workspace-counter key
+    const counterKey = "Miktc-Miktc";
+
+    // Full API endpoint
+    const apiBase = "https://api.counterapi.dev";
 
     async function updateCount() {
       try {
-        const res = await fetch(`https://counterapi.dev/${counterKey}`);
+        const res = await fetch(`${apiBase}/v1/counter/${counterKey}`);
         const data = await res.json();
         document.getElementById("likeCount").innerText = "Likes: " + data.value;
       } catch (err) {
         console.error("Error fetching like count:", err);
+        document.getElementById("likeCount").innerText = "Likes: Error";
       }
     }
 
     document.getElementById("likeBtn").onclick = async () => {
       try {
-        await fetch(`https://counterapi.dev/${counterKey}/increment`);
+        await fetch(`${apiBase}/v1/counter/${counterKey}/increment`, { method: "POST" });
         updateCount();
       } catch (err) {
         console.error("Error updating like count:", err);
